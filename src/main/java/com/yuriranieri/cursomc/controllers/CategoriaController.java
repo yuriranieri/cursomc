@@ -9,24 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yuriranieri.cursomc.domain.Categoria;
 import com.yuriranieri.cursomc.services.CategoriaService;
+import com.yuriranieri.cursomc.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-	
+
 	@Autowired
 	private CategoriaService categoriaService;
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) throws ObjectNotFoundException {
 		Categoria categoria = categoriaService.buscar(id);
-		
-		if (categoria != null) {
-			return ResponseEntity.ok().body(categoria);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-		
+
+		return ResponseEntity.ok().body(categoria);
 	}
 
 }
