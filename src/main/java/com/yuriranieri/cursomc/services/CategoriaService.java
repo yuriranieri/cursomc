@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.yuriranieri.cursomc.domain.Categoria;
@@ -20,7 +23,7 @@ public class CategoriaService {
 	public List<Categoria> findAll() {
 		return categoriaRepository.findAll();
 	}
-	
+
 	public Categoria find(Integer id) throws ObjectNotFoundException {
 		return categoriaRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
 				"Categoria não encontrada para o id: " + id + " do tipo: " + Categoria.class.getName()));
@@ -38,20 +41,17 @@ public class CategoriaService {
 	public void delete(Integer id) {
 		find(id);
 		try {
-			categoriaRepository.deleteById(id);			
+			categoriaRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
 		}
-	} 
+	}
 
-	
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return categoriaRepository.findAll(pageRequest);
+		
+	}
 
 }
-
-
-
-
-
-
-
-
