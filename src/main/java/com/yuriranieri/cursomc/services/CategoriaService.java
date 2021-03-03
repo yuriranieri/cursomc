@@ -1,5 +1,7 @@
 package com.yuriranieri.cursomc.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,22 @@ public class CategoriaService {
 				"Categoria não encontrada para o id: " + id + " do tipo: " + Categoria.class.getName()));
 	}
 
+	public Categoria insert(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+
+	public List<Categoria> list() {
+		return categoriaRepository.findAll();
+	}
+
+	
+
 }
+
+
+
+
+
+
+
+
