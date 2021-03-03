@@ -20,7 +20,7 @@ public class ClienteController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws ObjectNotFoundException {
-		Cliente cliente = clienteService.buscar(id);
+		Cliente cliente = clienteService.find(id);
 
 		return ResponseEntity.ok().body(cliente);
 	}

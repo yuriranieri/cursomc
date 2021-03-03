@@ -20,7 +20,7 @@ public class PedidoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) throws ObjectNotFoundException {
-		Pedido pedido = pedidoService.buscar(id);
+		Pedido pedido = pedidoService.find(id);
 
 		return ResponseEntity.ok().body(pedido);
 	}
