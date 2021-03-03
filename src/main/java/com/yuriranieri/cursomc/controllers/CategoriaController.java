@@ -2,6 +2,7 @@ package com.yuriranieri.cursomc.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.yuriranieri.cursomc.domain.Categoria;
+import com.yuriranieri.cursomc.dto.CategoriaDto;
 import com.yuriranieri.cursomc.services.CategoriaService;
 import com.yuriranieri.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -27,8 +29,11 @@ public class CategoriaController {
 	private CategoriaService categoriaService;
 
 	@GetMapping
-	public List<Categoria> list() {
-		return categoriaService.list();
+	public ResponseEntity<List<CategoriaDto>> findAll() {
+		List<Categoria> categorias = categoriaService.findAll();
+		List<CategoriaDto> dto = categorias.stream().map(CategoriaDto::new).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(dto);
 	}
 
 	@GetMapping("/{id}")

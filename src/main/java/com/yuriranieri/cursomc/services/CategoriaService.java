@@ -17,7 +17,7 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	public List<Categoria> list() {
+	public List<Categoria> findAll() {
 		return categoriaRepository.findAll();
 	}
 	
