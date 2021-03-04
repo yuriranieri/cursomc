@@ -32,7 +32,6 @@ public class ClienteService {
 	
 	public Cliente update(Cliente cliente) {
 		Cliente newCliente = find(cliente.getId());
-		
 		updateData(newCliente, cliente);
 		
 		return clienteRepository.save(newCliente);

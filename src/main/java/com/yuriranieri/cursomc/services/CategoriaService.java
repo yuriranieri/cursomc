@@ -35,8 +35,10 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria categoria) {
-		find(categoria.getId());
-		return categoriaRepository.save(categoria);
+		Categoria newCategoria = find(categoria.getId());
+		updateData(newCategoria, categoria);
+
+		return categoriaRepository.save(newCategoria);
 	}
 
 	public void delete(Integer id) {
@@ -50,7 +52,7 @@ public class CategoriaService {
 
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		
+
 		return categoriaRepository.findAll(pageRequest);
 	}
 
@@ -58,4 +60,8 @@ public class CategoriaService {
 		return new Categoria(dto.getId(), dto.getNome());
 	}
 	
+	private void updateData(Categoria newCategoria, Categoria categoria) {
+		newCategoria.setNome(categoria.getNome());
+	}
+
 }
