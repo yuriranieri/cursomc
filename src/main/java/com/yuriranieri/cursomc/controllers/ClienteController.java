@@ -1,5 +1,6 @@
 package com.yuriranieri.cursomc.controllers;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,14 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.yuriranieri.cursomc.domain.Cliente;
 import com.yuriranieri.cursomc.dto.ClienteDto;
+import com.yuriranieri.cursomc.dto.ClienteNewDto;
 import com.yuriranieri.cursomc.services.ClienteService;
 import com.yuriranieri.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -55,6 +59,16 @@ public class ClienteController {
 		Page<ClienteDto> dto = categorias.map(ClienteDto::new);
 
 		return ResponseEntity.ok().body(dto);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> insert(@RequestBody @Valid ClienteNewDto newDto) {
+		Cliente entity = clienteService.fromDto(newDto);
+		entity = clienteService.insert(entity);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entity.getId())
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
 
 	@PutMapping("/{id}")

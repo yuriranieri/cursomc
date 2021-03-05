@@ -36,8 +36,8 @@ public class ControllerExceptionHandler {
 		
 		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação", LocalDateTime.now());
 		
-		for (FieldError x : e.getBindingResult().getFieldErrors()) {
-			err.addError(x.getField(), x.getDefaultMessage());
+		for (FieldError error : e.getBindingResult().getFieldErrors()) {
+			err.addError(error.getField(), error.getDefaultMessage());
 		}
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
