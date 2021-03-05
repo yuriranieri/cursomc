@@ -30,8 +30,7 @@ public class Cliente implements Serializable {
 	private String cpf;
 	private Integer tipo;
 	
-	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "cliente")
-//	private List<Endereco> enderecos;
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@ElementCollection
