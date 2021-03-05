@@ -69,7 +69,7 @@ public class ClienteService {
 	}
 
 	public Cliente fromDto(@Valid ClienteNewDto newDto) {
-		Cliente cli = new Cliente(null, newDto.getNome(), newDto.getEmail(), newDto.getCpf(),
+		Cliente cli = new Cliente(null, newDto.getNome(), newDto.getEmail(), newDto.getCpfOuCnpj(),
 				TipoCliente.toEnum(newDto.getTipo()));
 		
 		Cidade cid = new Cidade(newDto.getCidadeId(), null, null);
