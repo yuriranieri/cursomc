@@ -24,7 +24,7 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 
@@ -38,19 +38,22 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "endereco_entrega_id")
 	private Endereco enderecoDeEntrega;
-	
+
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 
 	public Pedido() {
 	}
 
-	public Pedido(Integer id, Date instante, Cliente cliente,
-			Endereco enderecoDeEntrega) {
+	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		this.id = id;
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	public double getValorTotal() {
+		return itens.stream().filter(item -> item.getQuantidade() > 0).mapToDouble(item -> item.getSubTotal()).sum();
 	}
 
 	public Integer getId() {
@@ -125,5 +128,5 @@ public class Pedido implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }
